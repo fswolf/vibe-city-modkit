@@ -1,0 +1,37 @@
+{
+  "id": "my-kiosk",
+  "name": "Corner Kiosk",
+  "label": "Kiosk",
+  "author": "Your name",
+  "version": "1.0",
+  "desc": "An example mod building. Click it to run the till.",
+  "group": "decor",
+  "price": 1500,
+  "upkeep": 10,
+  "power": 2,
+  "water": 2,
+  "jobs": 3,
+  "reach": 3,
+  "sprites": [
+    "R0.png",
+    "R1.png",
+    "R2.png",
+    "R3.png"
+  ],
+  "icon": "icon.png",
+  "facing": [
+    0,
+    3,
+    2,
+    1
+  ],
+  "window": {
+    "page": "game.html",
+    "title": "Corner Kiosk",
+    "width": 640,
+    "height": 420
+  },
+  "money": {
+    "per_month": 500
+  }
+}

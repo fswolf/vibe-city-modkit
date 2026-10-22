@@ -1,0 +1,16 @@
+{
+  "id": "my-static-scenes",
+  "name": "Static Scenes",
+  "label": "Scenes",
+  "author": "Your name",
+  "version": "1.0",
+  "desc": "Four little scenes with play buttons, made from still pictures. Click it to watch.",
+  "group": "decor",
+  "price": 1000,
+  "upkeep": 5,
+  "reach": 2,
+  "sprites": ["R0.png", "R1.png", "R2.png", "R3.png"],
+  "icon": "icon.png",
+  "facing": [0, 3, 2, 1],
+  "window": { "page": "game.html", "title": "Static Scenes", "width": 960, "height": 600 }
+}

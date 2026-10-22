@@ -1,0 +1,46 @@
+{
+  "name": "vc-novel-studio",
+  "productName": "VC Novel Studio",
+  "version": "0.3.0",
+  "description": "Write and edit visual novels for Vibe City.",
+  "author": "Ryan Autet",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "serve": "node server.js",
+    "build": "electron-builder --linux AppImage tar.gz --win zip --x64",
+    "build:mac": "electron-builder --mac dmg zip --universal"
+  },
+  "devDependencies": {
+    "electron": "^44.4.3",
+    "electron-builder": "^26.15.3"
+  },
+  "license": "MIT",
+  "build": {
+    "appId": "city.vibe.novelstudio",
+    "productName": "VC Novel Studio",
+    "asar": true,
+    "files": [
+      "main.js",
+      "server.js",
+      "web/**",
+      "icon.png"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "artifactName": "VC-Novel-Studio-${version}-${os}-${arch}.${ext}",
+    "linux": {
+      "icon": "icon.png",
+      "category": "Development"
+    },
+    "win": {
+      "icon": "icon.png"
+    },
+    "mac": {
+      "icon": "icon.png",
+      "category": "public.app-category.developer-tools"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Corner Kiosk</title>
+<!-- A tiny example window: sell snacks, the takings go into the city's funds.
+     Shows every message a mod page can use. See docs/MODDING.md. -->
+<style>
+html,body{margin:0;height:100%;background:#1d1a24;color:#f4efe6;font:15px system-ui,sans-serif;user-select:none}
+main{display:grid;place-items:center;height:100%;text-align:center;gap:10px}
+h1{margin:0;font-size:26px;color:#ffd66b}
+button{font:inherit;padding:12px 22px;border-radius:10px;border:1px solid #6b5a88;background:#2c2540;color:#fff;cursor:pointer}
+button:hover{background:#3b3158}button:disabled{opacity:.4;cursor:default}
+#city,#left{color:#bdb3d6;font-size:13px}
+</style></head><body><main><div>
+  <h1>Corner Kiosk</h1>
+  <p id="city">Waiting for the city...</p>
+  <p>Snacks sold: <b id="sold">0</b> &nbsp; Till: <b id="till">$0</b></p>
+  <button id="sell">Sell a snack ($5)</button>
+  <button id="bank">Pay the till into the city</button>
+  <p id="left"></p>
+</div></main>
+<script>
+const $ = id => document.getElementById(id);
+const send = m => parent.postMessage(m, "*");
+let state = { sold: 0, till: 0 }, open = true;
+
+const show = () => { $("sold").textContent = state.sold; $("till").textContent = "$" + state.till; $("sell").disabled = !open; };
+
+addEventListener("message", e => {
+  const d = e.data || {};
+  if (d.vc === "init") {                       // the city, your saved data, the money allowance
+    if (d.data) state = d.data;
+    open = d.city.open;
+    $("city").textContent = `${d.city.name}, ${d.city.year}. Population ${d.city.pop.toLocaleString()}.` + (open ? "" : " Closed: no power or water.");
+    $("left").textContent = `You can pay $${d.money.left} more this month.`;
+    show();
+  }
+  if (d.vc === "paid") {                       // the game took the money
+    $("left").textContent = `Paid $${d.amount}. $${d.left} left this month.`;
+    send({ vc: "toast", text: `The kiosk paid $${d.amount} into the city` });
+  }
+});
+
+$("sell").onclick = () => { state.sold++; state.till += 5; show(); send({ vc: "save", data: state }); };
+$("bank").onclick = () => { if (!state.till) return; send({ vc: "pay", amount: state.till }); state.till = 0; show(); send({ vc: "save", data: state }); };
+addEventListener("keydown", e => { if (e.key === "Escape") send({ vc: "close" }); });   // the city cannot hear Escape while you have the keyboard
+
+send({ vc: "ready" });                         // ask for the city
+</script></body></html>

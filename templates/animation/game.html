@@ -1,0 +1,114 @@
+<!doctype html><html><head><meta charset="utf-8"><title>vb_af</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#140f22;color:#f2ecff;font:14px system-ui,sans-serif;overflow:hidden}
+[hidden]{display:none!important}
+#app{display:grid;grid-template-columns:1fr 250px;grid-template-rows:100%;height:100%}
+#stage{width:100%;height:100%;display:block}
+#side{background:#1e1733;border-left:2px solid #3a2a5a;padding:14px;display:flex;flex-direction:column;gap:8px;min-height:0;overflow:hidden}
+h2{font-size:11px;margin:6px 0 0;color:#a99cc8;letter-spacing:.12em;text-transform:uppercase}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.grid button{padding:8px 8px;font-size:12.5px;gap:6px}.row button{justify-content:center;padding:9px 4px;font-size:13px}.col{display:flex;flex-direction:column;gap:8px}
+h1{font-size:16px;margin:0 0 6px;color:#ff168d;letter-spacing:.05em}
+button{all:unset;cursor:pointer;padding:10px 12px;border-radius:8px;background:#2c2148;border:1px solid #4a3878;display:flex;gap:8px;align-items:center}
+button:hover{background:#3a2c60}button:disabled{opacity:.45;cursor:default}
+button b{color:#00e3d2;min-width:14px}
+#pausebtn{margin-top:auto}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px}.tabs button{justify-content:center;padding:7px 4px;font-size:13px}.tabs button.on,.who button.on{border-color:#00e3d2;color:#00e3d2}
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.who button{justify-content:center;padding:6px 4px;font-size:12.5px}
+#movegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;overflow:auto;min-height:0}#movegrid button{justify-content:center;padding:5px 2px;font-size:11.5px;border-radius:6px}
+#scenes,#moves{display:flex;flex-direction:column;gap:8px;min-height:0;flex:1}
+#status{font-size:12px;color:#a99cc8;line-height:1.5}
+#paused{position:absolute;inset:0;display:none;place-items:center;background:#0009;font-size:22px;letter-spacing:.2em}
+</style></head><body>
+<div id="app"><canvas id="stage"></canvas><div id="side"><h1 id="title"></h1><div class="tabs"><button id="tabscenes" class="on">Scenes</button><button id="tabmoves">Moves</button></div>
+<div id="scenes"><h2>Quick</h2><div id="quick" class="row"></div><h2>Scenes</h2><div id="acts" class="grid"></div></div>
+<div id="moves" hidden><h2>Who</h2><div class="who" id="who"></div><h2>Moves</h2><div id="movegrid"></div></div><button id="pausebtn"><b>P</b><span>Pause</span></button><div id="status">Q W E quick moves, 1 to 0 scenes, P pause. Esc stops or closes.</div></div></div>
+<div id="paused">PAUSED</div>
+<script src="af.js"></script><script src="actors.js"></script><script src="scene.js"></script>
+<script>
+const $ = id => document.getElementById(id), send = m => { try { parent !== window && parent.postMessage(m, "*"); } catch {} };
+let saved = { plays: {} };
+$("title").textContent = SCENE.title;
+const btns = SCENE.acts.map((act, i) => {
+  const b = document.createElement("button"); b.innerHTML = `<b>${i < 10 ? (i + 1) % 10 : ""}</b><span>${act.label}</span>`;
+  b.onclick = () => play(i); $("acts").appendChild(b); return b; });
+const qbtns = (SCENE.quick || []).map((q, i) => {
+  const b = document.createElement("button"); b.textContent = q.label; b.title = "Key " + "QWE"[i];
+  b.onclick = () => quick(i); $("quick").appendChild(b); return b; });
+let mbtns = [];
+const lock = on => btns.concat(qbtns, mbtns).forEach(b => (b.disabled = on));
+
+// ---- Moves tab: play one move on one character (or both)
+const tab = name => { $("scenes").hidden = name !== "scenes"; $("moves").hidden = name !== "moves";
+  $("tabscenes").classList.toggle("on", name === "scenes"); $("tabmoves").classList.toggle("on", name === "moves"); };
+$("tabscenes").onclick = () => tab("scenes"); $("tabmoves").onclick = () => tab("moves");
+let who = ["a"];
+const whoBtns = [];
+function buildMoves() {
+  const A = AF.state.actors, ids = Object.keys(A);
+  const opts = ids.map(id => [A[id].name || id, [id]]).concat([["Both", ids]]);
+  opts.forEach(([label, list], i) => { const b = document.createElement("button"); b.textContent = label; if (!i) b.classList.add("on");
+    b.onclick = () => { who = list; whoBtns.forEach(x => x.classList.toggle("on", x === b)); refresh(); }; $("who").appendChild(b); whoBtns.push(b); });
+  const names = [...new Set(ids.flatMap(id => Object.keys(A[id].anims)))].filter(n => !["front", "turnback", "kneeling"].includes(n));
+  mbtns = names.map(n => { const b = document.createElement("button"); b.textContent = n; b.onclick = () => move(n); $("movegrid").appendChild(b); return b; });
+  refresh();
+}
+function refresh() { const A = AF.state.actors; mbtns.forEach(b => { if (!AF.state.busy) b.disabled = !who.some(id => A[id].has(b.textContent)); }); }
+async function move(n) {
+  if (AF.state.busy) return;
+  const A = AF.state.actors, ids = who.filter(id => A[id].has(n)), st = { loops: 2, hold: .8 };
+  if (!ids.length) return;
+  // moves done seated or kneeling. Everything else is done standing.
+  const SEAT = { sitdown: 1, sit: 1, doze: 1, standup: 1 }, KNEE = { kneel: 1, pet: 1, getup: 1 };
+  const leave = { idle: {} }, enter = { idle: {} };
+  for (const id of ids) {
+    let r = A[id].idle;
+    // first get out of the old position (stand up, get up)
+    const out = { sit: !SEAT[n] && "standup", kneeling: !KNEE[n] && "getup" }[r];
+    if (out) { leave[id] = out; leave.idle[id] = "idle"; r = "idle"; }
+    // then into the one this move needs (sit down, kneel)
+    const into = (n === "doze" || n === "sit") && r !== "sit" ? ["sitdown", "sit"]
+               : n === "pet" && r !== "kneeling" ? ["kneel", "kneeling"] : null;
+    if (into) { enter[id] = into[0]; enter.idle[id] = into[1]; }
+    if (!(n === "sit" && into)) st[id] = n;
+  }
+  // these change what they rest in, so they stay seated, kneeling or facing front
+  const rest = { sitdown: "sit", sit: "sit", doze: "sit", standup: "idle", turn: "front",
+                 kneel: "kneeling", pet: "kneeling", getup: "idle" }[n];
+  if (rest) { st.idle = {}; for (const id of ids) if (st[id]) st.idle[id] = rest; }
+  const steps = [leave, enter, st].filter(s => ids.some(id => s[id]));
+  if (n === "turn") steps.push({ wait: 1.2 }, Object.fromEntries([["idle", Object.fromEntries(ids.map(id => [id, "idle"]))], ...ids.map(id => [id, "turnback"])]));
+  lock(true); $("status").textContent = ids.map(id => A[id].name || id).join(" and ") + ": " + n;
+  await AF.run(steps);
+  if (AF.state.stop) await AF.reset();
+  lock(false); refresh();
+}
+async function quick(i) {
+  const q = SCENE.quick[i]; if (!q || AF.state.busy) return;
+  lock(true); $("status").textContent = q.label;
+  await AF.run(q.pick[Math.floor(Math.random() * q.pick.length)]);
+  if (AF.state.stop) await AF.reset();   // stopped halfway: put everyone back
+  lock(false); $("status").textContent = "Pick another.";
+}
+async function play(i) {
+  const act = SCENE.acts[i]; if (!act || AF.state.busy) return;
+  lock(true); $("status").textContent = act.label;
+  await AF.run(act);
+  if (AF.state.stop) { await AF.reset(); lock(false); $("status").textContent = "Stopped."; return; }
+  saved.plays[act.id] = (saved.plays[act.id] || 0) + 1; send({ vc: "save", data: saved });
+  lock(false); $("status").textContent = `Played ${Object.values(saved.plays).reduce((a, b) => a + b, 0)} scenes here.`;
+}
+addEventListener("keydown", e => {
+  if ((e.key === "p" || e.key === "P") && !e.repeat) { pause(!AF.state.paused); return; }
+  if (e.key === "Escape") { e.preventDefault(); if (AF.state.busy) AF.halt(); else send({ vc: "close" }); return; }
+  const n = parseInt(e.key); if (n >= 0 && n <= 9 && !e.repeat) play(n === 0 ? 9 : n - 1);
+  const k = "qwe".indexOf(e.key.toLowerCase()); if (k >= 0 && !e.repeat) quick(k);
+});
+const pause = p => { AF.state.paused = p; $("paused").style.display = p ? "grid" : "none"; $("pausebtn").querySelector("span").textContent = p ? "Resume" : "Pause"; };
+$("pausebtn").onclick = () => pause(!AF.state.paused);
+// SCENE.pauseOnBlur: true pauses whenever the player clicks back into the city (off by default).
+if (SCENE.pauseOnBlur) addEventListener("blur", () => pause(true));
+$("paused").onclick = () => pause(false);
+addEventListener("message", e => { const d = e.data || {};
+  if (d.vc === "init") { if (d.data && d.data.plays) saved = d.data; if (d.settings) AF.state.vol = d.settings.volume ?? 1; } });
+AF.start(SCENE, $("stage")).then(() => { buildMoves(); send({ vc: "ready" }); }).catch(err => { $("status").textContent = "Could not load: " + err.message; console.error(err); });
+</script></body></html>

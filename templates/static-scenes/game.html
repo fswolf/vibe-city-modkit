@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Kitties Mew</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#140f22;color:#f6efff;font:15px system-ui,sans-serif;overflow:hidden;user-select:none}
+[hidden]{display:none!important}
+#stage{position:absolute;inset:0;cursor:pointer;overflow:hidden}
+#bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.actor{position:absolute;bottom:8%;transform-origin:50% 100%;transition:filter .25s;pointer-events:none}
+.actor img{display:block;width:auto;filter:drop-shadow(0 6px 8px #0005)}
+.actor.dim{filter:brightness(.62) saturate(.8)}
+#fx{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fx{position:absolute;animation:up 1.8s ease-out forwards;opacity:0;text-shadow:0 2px 6px #0006;font-weight:700}
+@keyframes up{0%{opacity:0;transform:translateY(10px) scale(.6)}15%{opacity:1}100%{opacity:0;transform:translateY(-120px) scale(1.2) rotate(15deg)}}
+.drop{position:absolute;top:-8%;width:2px;height:7%;background:linear-gradient(#fff0,#bfe4ffcc);animation:rain .7s linear 2 forwards}
+@keyframes rain{to{transform:translateY(118vh)}}
+#top{position:absolute;top:12px;left:14px;right:14px;display:flex;align-items:center;gap:10px;pointer-events:none}
+#title{background:#1b1230d0;border:1px solid #5a3f8f;border-radius:12px;padding:7px 14px}
+#sname{font-weight:700;font-size:16px}#count{font-size:11px;color:#c9b8ef}
+#dots{display:flex;gap:6px;pointer-events:auto}#dots i{width:11px;height:11px;border-radius:50%;background:#ffffff55;cursor:pointer;border:1px solid #0004}#dots i.on{background:#ff8fc6}
+#nav{margin-left:auto;display:flex;gap:6px;pointer-events:auto}
+button{all:unset;cursor:pointer;padding:7px 13px;border-radius:10px;background:#2c2148e8;border:1px solid #6a4fa8;font-size:14px;color:#fff}
+button:hover:not(:disabled){background:#43306e;border-color:#ff8fc6}button:disabled{opacity:.4;cursor:default}
+#btns{position:absolute;left:50%;transform:translateX(-50%);bottom:6%;display:flex;gap:12px;transition:opacity .2s}#btns.off{opacity:0;pointer-events:none}
+#btns button{padding:12px 20px;font-size:16px;white-space:nowrap;background:#241a3cf2;box-shadow:0 3px 10px #0006}
+#btns b{color:#ff8fc6;margin-right:8px}
+#box{position:absolute;left:3%;right:3%;bottom:3%;height:27%;background:#1b1230eb;border:2px solid #5a3f8f;border-radius:14px;padding:24px 28px;box-shadow:0 6px 24px #0008;cursor:pointer}
+#box.narr #text{font-style:italic;color:#e0d6f7}
+#name{position:absolute;top:-15px;left:22px;padding:4px 16px;border-radius:999px;font-weight:700;font-size:15px;color:#fff;box-shadow:0 2px 0 #0005}
+#text{font-size:clamp(15px,3.2vh,21px);line-height:1.45;white-space:pre-wrap}
+#more{position:absolute;right:18px;bottom:10px;color:#ff8fc6;font-size:14px;animation:bob 1s infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+#fade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .35s}#fade.on{opacity:1}
+#help{position:absolute;right:14px;bottom:4px;font-size:10px;color:#ffffff77;pointer-events:none}
+</style></head><body>
+<div id="stage"><img id="bg" alt=""><div id="actors"></div><div id="fx"></div></div>
+<div id="top"><div id="title"><div id="sname"></div><div id="count"></div></div><div id="dots"></div>
+  <div id="nav"><button id="prev">&#9664; Back</button><button id="again" title="Play this scene's opening again">&#8635;</button><button id="next">Next &#9654;</button></div></div>
+<div id="btns"></div>
+<div id="box" hidden><div id="name"></div><div id="text"></div><div id="more">&#9660;</div></div>
+<div id="fade"></div>
+<div id="help">Click or Space reads on · 1 to 4 play · arrows change scene · Esc closes</div>
+<script src="cast.js"></script><script src="scenes.js"></script><script src="stage.js"></script>
+</body></html>

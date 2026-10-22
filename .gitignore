@@ -1,0 +1,9 @@
+node_modules/
+dist/
+packed/
+*.asar
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+studio-backups/

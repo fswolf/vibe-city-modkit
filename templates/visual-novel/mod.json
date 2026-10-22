@@ -1,0 +1,16 @@
+{
+  "id": "my-visual-novel",
+  "name": "Corner Cafe",
+  "label": "Novel",
+  "author": "Your name",
+  "version": "1.0",
+  "desc": "A visual novel stage. Click it to read a short story with choices and endings.",
+  "group": "decor",
+  "price": 1000,
+  "upkeep": 5,
+  "reach": 2,
+  "sprites": ["R0.png", "R1.png", "R2.png", "R3.png"],
+  "icon": "icon.png",
+  "facing": [0, 3, 2, 1],
+  "window": { "page": "game.html", "title": "Corner Cafe", "width": 960, "height": 600 }
+}

@@ -1,0 +1,84 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>vc-novel-studio</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="/web/studio.css">
+</head><body>
+<header id="top">
+  <div class="brand"><span class="mark"></span><span class="word">vc&#8209;novel<b>studio</b></span></div>
+  <select id="novels" title="Novel folder"></select>
+  <div id="stats" title="Scenes, lines, words and reading time"></div>
+  <span class="grow"></span>
+  <span id="status"></span>
+  <div class="tb">
+    <button id="findbtn" class="ic" title="Find and replace (Ctrl+F)"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></button>
+    <button id="undo" class="ic" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M9 7 4 12l5 5"/><path d="M4 12h10a6 6 0 0 1 0 12h-2" transform="translate(0 -6)"/></svg></button>
+    <button id="redo" class="ic" title="Redo (Ctrl+Y)"><svg viewBox="0 0 24 24"><path d="m15 7 5 5-5 5"/><path d="M20 12H10a6 6 0 0 0 0 12h2" transform="translate(0 -6)"/></svg></button>
+    <button id="exportbtn" class="ic" title="Export the script as text, for proofreading"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 19h16"/></svg></button>
+    <button id="backups" class="ic" title="Backups"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 8v4l3 2"/></svg></button>
+  </div>
+  <button id="save" class="primary" title="Save (Ctrl+S)">Save</button>
+</header>
+
+<main>
+  <aside id="left">
+    <div class="phead"><h2>Scenes</h2><button id="addlabel" class="small">+ Scene</button></div>
+    <input id="lfilter" class="filter" placeholder="Filter scenes">
+    <div id="labels"></div>
+    <div class="phead checks-h"><h2>Checks</h2><span id="checkcount"></span></div>
+    <div id="checks"></div>
+  </aside>
+
+  <section id="mid">
+    <div id="enginewarn" hidden></div>
+    <div class="scenehead">
+      <h1 id="lname" title="Click to rename"></h1>
+      <div class="sceneacts">
+        <button id="playscene" class="small hot" title="Play this scene in the preview">&#9654; Play</button>
+        <button id="startlabel" class="small">Make start</button>
+        <button id="uplabel" class="ic sm" title="Move scene up"><svg viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></svg></button>
+        <button id="downlabel" class="ic sm" title="Move scene down"><svg viewBox="0 0 24 24"><path d="m6 10 6 6 6-6"/></svg></button>
+        <button id="dellabel" class="ic sm bad" title="Delete scene"><svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg></button>
+      </div>
+    </div>
+    <div id="flow"></div>
+    <div id="lines"></div>
+    <div id="empty" hidden>This scene is empty. Add a line below.</div>
+    <div class="addbar"><span id="addat"></span><div id="adders"></div></div>
+  </section>
+
+  <section id="right">
+    <nav class="tabs"><button data-tab="preview" class="on">Preview</button><button data-tab="map">Map</button><button data-tab="settings">Novel</button></nav>
+
+    <div class="tab" id="tab-preview">
+      <div class="pvbar">
+        <button id="playstart" class="small">From the start</button>
+        <button id="pvreload" class="small" title="Restart the last preview">Replay</button>
+        <span class="grow"></span>
+        <label class="chk"><input type="checkbox" id="pvshow" checked> Everyone on stage</label>
+      </div>
+      <div class="pv"><iframe id="pv" title="Preview"></iframe></div>
+      <div class="pvopts">
+        <label>Stage <select id="pvstage"></select></label>
+        <label class="wide">Flags <input id="pvflags" placeholder="trust=2 fun=1"></label>
+      </div>
+      <p class="hint">Plays your unsaved edits in the novel's own engine. Starting mid story, set the stage and flags that scene expects. The play button on a line starts right there.</p>
+    </div>
+
+    <div class="tab" id="tab-map" hidden>
+      <div class="maphead"><span class="hint">Click a scene to open it. Solid lines are jumps and choices, dashed ones run on into the next scene.</span></div>
+      <div id="map"></div>
+    </div>
+
+    <div class="tab" id="tab-settings" hidden>
+      <div id="settings"></div>
+    </div>
+  </section>
+</main>
+
+<div id="find" hidden>
+  <div class="frow"><input id="fq" placeholder="Find in every scene"><input id="fr" placeholder="Replace with"><button id="frall" class="small">Replace all</button><button id="fclose" class="ic sm" title="Close (Esc)"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div id="fres"></div>
+</div>
+
+<dialog id="dlg"><form method="dialog"><h3 id="dlgt"></h3><div id="dlgb"></div><menu><button value="no" class="small">Cancel</button><button value="ok" class="primary" id="dlgok">OK</button></menu></form></dialog>
+<script src="/web/studio.js"></script>
+</body></html>

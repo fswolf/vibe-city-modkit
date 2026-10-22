@@ -1,0 +1,16 @@
+{
+  "id": "my-animation-stage",
+  "name": "Animation Framework",
+  "label": "Animate",
+  "author": "Your name",
+  "version": "1.0",
+  "desc": "Animation framework demo. Click it to watch two characters play out scenes.",
+  "group": "decor",
+  "price": 1000,
+  "upkeep": 5,
+  "reach": 2,
+  "sprites": ["R0.png", "R1.png", "R2.png", "R3.png"],
+  "icon": "icon.png",
+  "facing": [0, 3, 2, 1],
+  "window": { "page": "game.html", "title": "Animation Framework", "width": 960, "height": 560 }
+}
