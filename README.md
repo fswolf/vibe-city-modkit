@@ -16,7 +16,7 @@ This repo has everything a modder needs: ready-to-copy templates, the visual nov
 | <img src="docs/icons/animation.png" width="64" alt=""> | **[Animation framework](templates/animation)** | Characters acting out scenes from sprite strips: walking, high fives, sitting, racing. |
 | <img src="docs/icons/static-scenes.png" width="64" alt=""> | **[Static scenes](templates/static-scenes)** | Four scenes with play buttons, made from still pictures. The easiest way to start. |
 | <img src="docs/icons/studio.png" width="64" alt=""> | **[VC Novel Studio](studio)** | A desktop editor for visual novels: scenes as cards, live preview, scene map, checks, backups. |
-| 🔧 | **[Tools](tools)** | Check, slice and fix building sprite strips before they go in. |
+| <img src="docs/icons/tools.png" width="64" alt=""> | **[Tools](tools)** | Check, slice and fix building sprite strips before they go in. |
 
 ## Quick start
 
