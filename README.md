@@ -1,22 +1,26 @@
 # Vibe City Mod Kit
 
-**Make your own buildings, characters and stories for [Vibe City](#get-vibe-city)**, a cosy isometric city builder in the spirit of SimCity 2000.
+![Vibe City Mod Kit](docs/banner.png)
+
+[![Get Vibe City on itch.io](https://img.shields.io/badge/Get%20Vibe%20City-itch.io-fa5c5c?logo=itch.io&logoColor=white)](https://fswolf.itch.io/vibe-city)
+
+**Make your own buildings, characters and stories for [Vibe City](https://fswolf.itch.io/vibe-city)**, a cosy isometric city builder in the spirit of SimCity 2000.
 
 This repo has everything a modder needs: ready-to-copy templates, the visual novel editor, the tools we use to check building art, and plain-language docs.
 
-| | |
-|---|---|
-| 🏠 **[Building](templates/building)** | The smallest complete mod: a building, four pictures, and a window that can pay into the city's funds. |
-| 🎮 **[Micro game](templates/micro-game)** | *Bean Catcher*, a small arcade game inside a building: rounds, a best score saved with the city, tips paid into its funds. |
-| 📖 **[Visual novel](templates/visual-novel)** | A full little story with a cast, choices, flags, three endings and a Scenes menu. |
-| 🎬 **[Animation framework](templates/animation)** | Characters acting out scenes from sprite strips: walking, high fives, sitting, racing. |
-| 🖼️ **[Static scenes](templates/static-scenes)** | Four scenes with play buttons, made from still pictures. The easiest way to start. |
-| ✍️ **[VC Novel Studio](studio)** | A desktop editor for visual novels: scenes as cards, live preview, scene map, checks, backups. |
-| 🔧 **[Tools](tools)** | Check, slice and fix building sprite strips before they go in. |
+| | | |
+|:-:|---|---|
+| <img src="docs/icons/building.png" width="64" alt=""> | **[Building](templates/building)** | The smallest complete mod: a building, four pictures, and a window that can pay into the city's funds. |
+| <img src="docs/icons/micro-game.png" width="64" alt=""> | **[Micro game](templates/micro-game)** | *Bean Catcher*, a small arcade game inside a building: rounds, a best score saved with the city, tips paid into its funds. |
+| <img src="docs/icons/visual-novel.png" width="64" alt=""> | **[Visual novel](templates/visual-novel)** | A full little story with a cast, choices, flags, three endings and a Scenes menu. |
+| <img src="docs/icons/animation.png" width="64" alt=""> | **[Animation framework](templates/animation)** | Characters acting out scenes from sprite strips: walking, high fives, sitting, racing. |
+| <img src="docs/icons/static-scenes.png" width="64" alt=""> | **[Static scenes](templates/static-scenes)** | Four scenes with play buttons, made from still pictures. The easiest way to start. |
+| <img src="docs/icons/studio.png" width="64" alt=""> | **[VC Novel Studio](studio)** | A desktop editor for visual novels: scenes as cards, live preview, scene map, checks, backups. |
+| 🔧 | **[Tools](tools)** | Check, slice and fix building sprite strips before they go in. |
 
 ## Quick start
 
-1. Install Vibe City (desktop version: mods do not run in a browser tab).
+1. Install [Vibe City](https://fswolf.itch.io/vibe-city) (the desktop version: mods do not run in a browser tab).
 2. Copy any folder from `templates/` into `Documents/Vibe City/mods/` (on Linux `~/Documents/Vibe City/mods`).
 3. Start the game. Your building is in the build menu, in the drawer `mod.json` names (the templates use **Decor**).
 4. Click it with the pan tool to open its window.
@@ -62,12 +66,9 @@ sprite-templates/   the plot template for building art
 
 ## Get Vibe City
 
-Store links coming soon.
-
-## More from me
-
-- [All my projects on GitHub](https://github.com/fswolf)
-- [sfav](https://github.com/fswolf/sfav): a TUI launcher for your favourite commands
+- **[itch.io](https://fswolf.itch.io/vibe-city)**: Linux, Windows and macOS
+- **Steam**: coming soon
+- **GOG**: coming soon
 
 ## License
 
