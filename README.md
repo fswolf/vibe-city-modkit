@@ -7,6 +7,7 @@ This repo has everything a modder needs: ready-to-copy templates, the visual nov
 | | |
 |---|---|
 | 🏠 **[Building](templates/building)** | The smallest complete mod: a building, four pictures, and a window that can pay into the city's funds. |
+| 🎮 **[Micro game](templates/micro-game)** | *Bean Catcher*, a small arcade game inside a building: rounds, a best score saved with the city, tips paid into its funds. |
 | 📖 **[Visual novel](templates/visual-novel)** | A full little story with a cast, choices, flags, three endings and a Scenes menu. |
 | 🎬 **[Animation framework](templates/animation)** | Characters acting out scenes from sprite strips: walking, high fives, sitting, racing. |
 | 🖼️ **[Static scenes](templates/static-scenes)** | Four scenes with play buttons, made from still pictures. The easiest way to start. |
@@ -27,6 +28,7 @@ Then change `id` in its `mod.json` to something only yours, swap the art, and ma
 | Guide | What it covers |
 |---|---|
 | [MODDING.md](docs/MODDING.md) | The mod format: `mod.json`, the four pictures, facing the street, window pages and the messages they can send. **Start here.** |
+| [micro-games.md](docs/micro-games.md) | Little games inside buildings: the loop, screens, pausing, saving, paying the city. |
 | [sprites.md](docs/sprites.md) | Drawing or generating building pictures that sit on the tile, and checking them. |
 | [visual-novels.md](docs/visual-novels.md) | `story.js`, `actors.js`, choices, flags, endings, the Scenes menu. |
 | [animation.md](docs/animation.md) | Sprite strips, moves, steps, touching moves, hooks. |
@@ -49,6 +51,7 @@ cd studio && npm install && npm start
 docs/               the guides
 templates/          copy one into Documents/Vibe City/mods to start
   building/
+  micro-game/
   visual-novel/
   animation/
   static-scenes/

@@ -1,0 +1,20 @@
+{
+  "id": "my-micro-game",
+  "name": "Bean Catcher",
+  "label": "Beans",
+  "author": "Your name",
+  "version": "1.0",
+  "desc": "A coffee roastery with a little arcade game. Catch the beans, and the tips go to the city.",
+  "group": "decor",
+  "price": 2500,
+  "upkeep": 15,
+  "power": 4,
+  "water": 4,
+  "jobs": 6,
+  "reach": 3,
+  "sprites": ["R0.png", "R1.png", "R2.png", "R3.png"],
+  "icon": "icon.png",
+  "facing": [0, 3, 2, 1],
+  "window": { "page": "game.html", "title": "Bean Catcher", "width": 800, "height": 560 },
+  "money": { "per_month": 1200 }
+}
