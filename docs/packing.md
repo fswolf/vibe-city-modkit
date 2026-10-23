@@ -2,7 +2,7 @@
 
 ## Where mods go
 
-`Documents/Vibe City/mods/` (on Linux `~/Documents/Vibe City/mods`). One folder per mod, or one packed `.asar` file. The game reads the folder each time it starts. Mods work in the desktop game, not a browser tab.
+`Documents/Vibe City/mods/` (on Linux `~/Documents/Vibe City/mods`). One folder per mod, or one packed `.asar` file. The game reads the folder each time it starts.
 
 ## Packing
 

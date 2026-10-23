@@ -20,7 +20,7 @@ This repo has everything a modder needs: ready-to-copy templates, the visual nov
 
 ## Quick start
 
-1. Install [Vibe City](https://fswolf.itch.io/vibe-city) (the desktop version: mods do not run in a browser tab).
+1. Install [Vibe City](https://fswolf.itch.io/vibe-city).
 2. Copy any folder from `templates/` into `Documents/Vibe City/mods/` (on Linux `~/Documents/Vibe City/mods`).
 3. Start the game. Your building is in the build menu, in the drawer `mod.json` names (the templates use **Decor**).
 4. Click it with the pan tool to open its window.

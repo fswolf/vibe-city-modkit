@@ -11,8 +11,6 @@ mods/
     game.html       a window that opens when you click it (optional)
 ```
 
-Mods only work in the desktop game, not a browser tab.
-
 ## mod.json
 
 ```json
